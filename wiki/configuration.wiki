@@ -15,7 +15,7 @@ how it works:
 
 == differnt configurations for different environments ==
 
-for different environments such as staging, testing the OTP environment variables can be overwritten at VM start.
+for different environments such as staging, testing the OTP environment variables can be overwritten at Erlang VM start.
 
 Example: startscript
 
@@ -27,7 +27,7 @@ NODENAME=ems
 FLV_DIR=/path/to/flv/dir
 
 $ERL -pa `pwd`/ebin \
-   -boot start_sasl -config config/error_log \
+   -boot start_sasl \
    -s ems \
    -sname $NODENAME \
    -ems flv_die "\"${FLV_DIR}\"" \
