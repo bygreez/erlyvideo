@@ -1,28 +1,28 @@
 #summary Luke's notes on RTMP streaming
 
-= Introduction =
+== Introduction ==
 
 Notes of different parts of RTMP and streaming. Random order at the moment.
 
-= Stream Bytes Read Packet =
+=== Stream Bytes Read Packet === 
 
 Stream bytes read packets are sent by the client or server when receiving data. When the client is publishing the server must send these packets at regular intervals otherwise the client will close the connection. I think the default for the flash player is to send every 125000 bytes. 
 
-= Client & Server Bandwidth Packet =
+=== Client & Server Bandwidth Packet === 
 
 There are two types for setting bandwidth for upstream and downstream. 
 
-= Net Status Events =
+=== Net Status Events === 
 
 The server sends back status events that the client listens to. You can think of these as a standard layer over the top of the basic RTMP protocol. They do not effect media output on the client directly. For the full list see: ems.hrl.
 
 TODO: describe structure.
 
-= Pings (Protocol Signals) Packets =
+=== Pings (Protocol Signals) Packets === 
 
 Historically we called them pings, since the first one we discovered was like the standard ping. However in addition to this they also signal the stream state and buffer length. Not all the types are known.
 
-= App Commands =
+=== App Commands === 
 
 When the client connects they call 'connect' when they disconnect they should call disconnect. But we cannot rely on this since sometimes (in the case of dropped network connection) disconnect will not be called. In order to detect dropped connections we can ping the clients at regular intervals to check they are still responding.
 
@@ -38,7 +38,7 @@ TODO: connect parms
 
 Most of the other commands are stream related (see below), any thing else, is a custom call using NC.call to the application.
 
-= Stream Commands =
+=== Stream Commands === 
 
 Stream commands (play, pause, seek, etc) are sent to the application. It's the applications responsibility to pass these onto the stream. Think of this as a chain of responsibility. e.g. 
 
