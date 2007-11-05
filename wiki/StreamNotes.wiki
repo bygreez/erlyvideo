@@ -6,13 +6,13 @@ Notes of different parts of RTMP and streaming. Random order at the moment.
 
 The information contained in this doc is based on my observations and thus assumptions should be tested and challenged. There is still quite a bit of stuff which is unknown or not fully understood.
 
-=== RTMP Handshake === 
+=== Handshake === 
 
 TODO: handshake description
 
-=== RTMP Headers ===
+=== Headers ===
 
-RTMP Headers have the following structure with sizes ranging from 1 to 14 bytes. Square brackets used to denote optional parts.
+Packet headers have the following structure with sizes ranging from 1 to 14 bytes. Square brackets used to denote optional parts.
 
 {{{
 
@@ -86,7 +86,7 @@ _Stream Id_
 
 The last part of the header is the stream id, this is stored as an little-endian integer. When the client calls createStream the server responds with the next available stream id. I think this is used by the client to direct the media packets to the correct NetStream object. On the server its used to map the incoming packet to the stream object.
 
-== RTMP Channels ==
+== Channels ==
 
 One of the interesting features of RTMP is that it multiplexes data over multiple channels. Each stream has 3 channels, one each for audio, video, and data. 
 
@@ -96,8 +96,8 @@ Channel Id, Use
 
 0 Medium (1 byte extra) Channel Id
 1 Large (2 byte extra) Channel Id
-2 Used for pings.
-3 Used for calls.
+2 Used for pings, stream bytes read, etc.
+3 Used for invoke calls.
 
 After this 5 channels are used each stream streams.
 
@@ -110,25 +110,45 @@ After this 5 channels are used each stream streams.
 8 Stream 2, Data
 ...
 
+TODO: Improve map packet types to channel ids.
+
 }}}
 
-=== Stream Bytes Read Packet === 
+=== Chunk Size (1) === 
+
+Packets over a configured size (defaults to 128) are split into chunks. Each with its own header. 
+
+=== Stream Bytes Read (3) === 
 
 Stream bytes read packets are sent by the client or server when receiving data. When the client is publishing the server must send these packets at regular intervals otherwise the client will close the connection. I think the default for the flash player is to send every 125000 bytes. 
 
-=== Client & Server Bandwidth Packet === 
+=== Server (5) & Client (6) Bandwidth === 
 
 There are two types for setting bandwidth for upstream and downstream. 
-
-=== Net Status Events === 
-
-The server sends back status events that the client listens to. You can think of these as a standard layer over the top of the basic RTMP protocol. They do not effect media output on the client directly. For the full list see: ems.hrl.
-
-TODO: describe structure.
 
 === Pings (Protocol Signals) Packets === 
 
 Historically we called them pings, since the first one we discovered was like the standard ping. However in addition to this they also signal the stream state and buffer length. Not all the types are known.
+
+=== Notify (18) === 
+
+Notify is used for calls which do need or expect a reply. This makes it useful for sending events to the client.
+
+_Net Status Events_
+
+The server sends back status events that the client listens to. You can think of these as a standard layer over the top of the basic RTMP protocol. They do not effect media output on the client directly. For the full list see: ems.hrl. 
+
+TODO: describe structure.
+
+_Meta Data_
+
+Stream metadata is sent down the data channel of the stream to the onMetaData method.
+
+=== Invoke (20) === 
+
+Invoke is used for calls which expect a response. 
+
+TODO: describe invoke, args, result handler, etc.
 
 === App Commands === 
 
