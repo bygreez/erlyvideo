@@ -1,4 +1,8 @@
-= Application configuration based on OTP environment variables =
+#Roberto's notes on configuration settings
+
+== Introduction ==
+
+Application configuration based on OTP environment variables
 
 currently the following OTP environment variables can be configured:
   * flv_dir (default location of video files for playback)
