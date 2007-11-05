@@ -1,4 +1,4 @@
-#summary Roberto's notes on configuration settings
+#summary Configuration settings
 
 = Introduction =
 
@@ -34,3 +34,6 @@ $ERL -pa `pwd`/ebin \
    -heart \
    -noinput &
 }}}
+
+
+At later stage more options will be added to define the location of video files (e.g. for live recording) 
