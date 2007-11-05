@@ -122,6 +122,14 @@ status(NS_PLAY_START)
 frame(KeyFrame) or frame(BlankAudio)
 }}}
 
+
+
 === Header Type & Channel Ids ===
 
 The header type is encoded in the first 2 bits. See: RTMP_HDR values in ems.hrl. The remaining 6 bits of the first byte are used to store the channel id. With a range 0-63. Ids 0 and 1 are reserved to signal higher channels requiring more bytes to store. If 0 then the id is larger than 63 and takes an additional byte ( 64 + extra:8 ). If 1 then the id is larger than 319 and takes an additional byte ( 64 + extra:16 ).
+
+{{{
+
+HeaderType:2, ChannelId:6, [OptionalChannelIdExtra:8|16,] Timer:24/unsigned, Size:24, DataType:8, StreamId:32/little
+
+}}}
