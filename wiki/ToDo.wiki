@@ -1,0 +1,13 @@
+#summary To Do list for erlyVideo / Erlang Media Server
+
+= Introduction =
+
+This ia a quick and dirty ToDo list.
+
+
+= Details =
+
+Main Points
+  * FLV Playback
+  * FLV Recording
+  * Live Streams
