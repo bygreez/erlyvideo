@@ -1,6 +1,6 @@
-#Roberto's notes on configuration settings
+#summary Roberto's notes on configuration settings
 
-== Introduction ==
+= Introduction =
 
 Application configuration based on OTP environment variables
 
