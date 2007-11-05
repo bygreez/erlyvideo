@@ -11,3 +11,6 @@ Main Points
   * FLV Playback
   * FLV Recording
   * Live Streams
+
+lesser issues
+  * Add specific folder support into gen_rtmp applications for playing and recording
