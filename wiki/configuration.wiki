@@ -1,0 +1,32 @@
+= Application configuration based on OTP environment variables =
+
+currently the following OTP environment variables can be configured:
+  * flv_dir (default location of video files for playback)
+
+how it works:
+  * there is a OTP .app file template in the src folder (ems.app.src)
+  * the first time you compile, it gets copied into ebin folder
+  * there you can customize it, it won't get overwritten.
+
+
+== differnt configurations for different environments ==
+
+for different environments such as staging, testing the OTP environment variables can be overwritten at VM start.
+
+Example: startscript
+
+{{{
+#!/bin/sh
+
+ERL=erl
+NODENAME=ems
+FLV_DIR=/path/to/flv/dir
+
+$ERL -pa `pwd`/ebin \
+   -boot start_sasl -config config/error_log \
+   -s ems \
+   -sname $NODENAME \
+   -ems flv_die "\"${FLV_DIR}\"" \
+   -heart \
+   -noinput &
+}}}
