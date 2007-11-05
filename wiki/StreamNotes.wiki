@@ -24,7 +24,7 @@ Historically we called them pings, since the first one we discovered was like th
 
 === App Commands === 
 
-When the client connects they call 'connect' when they disconnect they should call disconnect. But we cannot rely on this since sometimes (in the case of dropped network connection) disconnect will not be called. In order to detect dropped connections we can ping the clients at regular intervals to check they are still responding.
+Clients call methods when they connect and disconnect. But we cannot rely on disconnect being called since sometimes (in the case of dropped network connection) disconnect will not be called. In order to detect dropped connections we can ping the clients at regular intervals to check they are still responding.
 
 {{{
 
@@ -72,3 +72,55 @@ receiveVideo(Flag) % toggle video
 closeStream() pass command to stream
 
 }}}
+
+=== Stream Commands Responses ===
+
+I'm just using a made up notation for now, but we can switch to erlang.
+
+TODO: error responses.
+TODO: check using debug proxy.
+
+pause
+
+{{{
+signal(PING_STREAM_PLAYBUFFER_CLEAR)
+status(NS_PAUSE_NOTIFY)
+}}}
+
+resume
+
+{{{
+signal(PING_STREAM_RESET)
+signal(PING_STREAM_CLEAR)
+status(NS_UNPAUSE_NOTIFY)
+}}}
+
+
+play
+
+{{{
+status(NS_PLAY_RESET)
+status(NS_PLAY_START)
+frame(KeyFrame)
+}}}
+
+stop 
+
+{{{
+signal(PING_STREAM_PLAYBUFFER_CLEAR)
+status(NS_PLAY_COMPLETE) if end of playlist
+status(NS_PLAY_STOP)
+}}}
+
+seek
+
+{{{
+signal(PING_STREAM_PLAYBUFFER_CLEAR)
+signal(PING_STREAM_RESET)
+signal(PING_STREAM_CLEAR)
+status(NS_SEEK_NOTIFY)
+status(NS_PLAY_START)
+frame(KeyFrame) or frame(BlankAudio)
+}}}
+
+
