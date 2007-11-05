@@ -2,7 +2,115 @@
 
 == Introduction ==
 
-Notes of different parts of RTMP and streaming. Random order at the moment.
+Notes of different parts of RTMP and streaming. Random order at the moment. 
+
+The information contained in this doc is based on my observations and thus assumptions should be tested and challenged. There is still quite a bit of stuff which is unknown or not fully understood.
+
+=== RTMP Handshake === 
+
+TODO: handshake description
+
+=== RTMP Headers ===
+
+RTMP Headers have the following structure with sizes ranging from 1 to 14 bytes. Square brackets used to denote optional parts.
+
+{{{
+
+HeaderType:2, ChannelId:6, [ChannelIdExtra:8|16,] [Timer:24/unsigned, [Size:24, DataType:8, [StreamId:32/little]]]
+
+}}}
+
+_Header Type_
+
+The header type is encoded in the first 2 bits. Different types denote different header sizes. 
+
+{{{
+Type            Size       Value
+--------------------------------
+New             12 Bytes   00
+Same Stream Id   8 Bytes   01
+Timer Change     4 Bytes   10
+Continue         1 Byte    11
+
+Note: Size does not include possible extra 1-2 bytes taken by larger channel ids.
+
+}}}
+
+_Channel Id_
+
+The remaining 6 bits of the first byte are used to store the channel id. With a range 0-63. Ids 0 and 1 are reserved to signal higher channels requiring more bytes to store. If 0 then the id is larger than 63 and takes an additional byte ( 64 + extra:8 ). If 1 then the id is larger than 319 and takes an additional byte ( 64 + extra:16 ).
+
+_Timer_
+
+Timer stores the packet time stamp in a 3 byte unsigned medium integer. 
+
+_Size_
+
+RTMP body size. If the body size is larger than the chunk size (defaults to 128 bytes) then the body will be split into multiple packets. Often the following chunks will have a 1 byte continue header.
+
+_Data Type_
+
+A single byte is used to store the packet data type. 
+7 of the 20 types are unknown. 
+
+{{{
+
+Chopped from ems.hrl
+
+%% RTMP data 
+-define(RTMP_TYPE_CHUNK_SIZE,     1).
+%-define(RTMP_TYPE_UNKNOWN,       2).
+-define(RTMP_TYPE_BYTES_READ,     3).
+-define(RTMP_TYPE_PING,           4).
+-define(RTMP_TYPE_BW_SERVER,      5).
+-define(RTMP_TYPE_BW_CLIENT,      6).
+%-define(RTMP_TYPE_UNKNOWN,       7).
+-define(RTMP_TYPE_AUDIO,          8).
+-define(RTMP_TYPE_VIDEO,          9).
+%-define(RTMP_TYPE_UNKNOWN,      10).
+%-define(RTMP_TYPE_UNKNOWN,      11).
+%-define(RTMP_TYPE_UNKNOWN,      12).
+%-define(RTMP_TYPE_UNKNOWN,      13).
+%-define(RTMP_TYPE_UNKNOWN,      14).
+-define(RTMP_FLEX_STREAM_SEND,   15).
+-define(RTMP_FLEX_SHARED_OBJECT, 16).
+-define(RTMP_FLEX_MESSAGE,       17).
+-define(RTMP_TYPE_NOTIFY,        18).
+-define(RTMP_TYPE_META_DATA,     18).
+-define(RTMP_TYPE_SHARED_OBJECT, 19).
+-define(RTMP_TYPE_INVOKE,        20).
+
+}}}
+ 
+_Stream Id_
+
+The last part of the header is the stream id, this is stored as an little-endian integer. When the client calls createStream the server responds with the next available stream id. I think this is used by the client to direct the media packets to the correct NetStream object. On the server its used to map the incoming packet to the stream object.
+
+== RTMP Channels ==
+
+One of the interesting features of RTMP is that it multiplexes data over multiple channels. Each stream has 3 channels, one each for audio, video, and data. 
+
+{{{
+
+Channel Id, Use
+
+0 Medium (1 byte extra) Channel Id
+1 Large (2 byte extra) Channel Id
+2 Used for pings.
+3 Used for calls.
+
+After this 5 channels are used each stream streams.
+
+4 Stream 1, Data
+5 Stream 1, Video
+6 Stream 1, Audio
+7 Stream 1, Unknown
+8 Stream 1, Unknown
+
+8 Stream 2, Data
+...
+
+}}}
 
 === Stream Bytes Read Packet === 
 
@@ -124,12 +232,6 @@ frame(KeyFrame) or frame(BlankAudio)
 
 
 
-=== Header Type & Channel Ids ===
 
-The header type is encoded in the first 2 bits. See: RTMP_HDR values in ems.hrl. The remaining 6 bits of the first byte are used to store the channel id. With a range 0-63. Ids 0 and 1 are reserved to signal higher channels requiring more bytes to store. If 0 then the id is larger than 63 and takes an additional byte ( 64 + extra:8 ). If 1 then the id is larger than 319 and takes an additional byte ( 64 + extra:16 ).
 
-{{{
 
-HeaderType:2, ChannelId:6, [OptionalChannelIdExtra:8|16,] Timer:24/unsigned, Size:24, DataType:8, StreamId:32/little
-
-}}}
