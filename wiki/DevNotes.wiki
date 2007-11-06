@@ -40,7 +40,7 @@ Load up the publisher and connect to rtmp://localhost:1935/ems_demo
 
 === Changing the code and reloading ===
 
-To compile and changes and reload run this command in the elang console. 
+To compile and changes and reload run this command in the Erlang console. 
 
 make:all([load]). 
 
