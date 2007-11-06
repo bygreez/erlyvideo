@@ -20,9 +20,7 @@ make
 
 make run
 
-This will start the erlang shell. From here you can start the application.
-
-application:start(ems).
+This will start the server in an interactive erlang shell. 
 
 === Applications For Testing === 
 
