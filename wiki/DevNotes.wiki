@@ -13,6 +13,7 @@ svn co https://erlyvideo.googlecode.com/svn/trunk erlmedia
 === Compiling and configuring the server ===
 
 cd erlmedia
+
 make 
 
 === Running the server === 
@@ -39,7 +40,9 @@ Load up the publisher and connect to rtmp://localhost:1935/ems_demo
 
 === Changing the code and reloading ===
 
-Currently I exit out of the erl console and restart the server manually. Is there a better way. (Luke: feeling a tad embarrassed for asking such an Erlang newbie question). 
+To compile and changes and reload run this command in the elang console. 
+
+make:all([load]). 
 
 === Debugging ===
 
