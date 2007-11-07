@@ -9,7 +9,7 @@ Current: http://rsaccon.googlepages.com/erlyvideoOrig.txt (does not work)
 
 Differences on packet level:
 
-
+{{{
 Old - after play request:
 -------------------------
 00000C96  48 00 00 09 00 00 87 14  02 00 08 6f 6e 53 74 61 H....... ...onSta
@@ -17,7 +17,7 @@ Old - after play request:
 ...
 ...
 ...
-00000DB6  00 00 00 09   
+00000DB6  00 00 00 09                                      ...
 
 
 Current - after play request:
@@ -25,3 +25,5 @@ Current - after play request:
 00000CA9  04 00 00 7b 00 00 91 14  01 00 00 00 02 00 08 6f ...{.... .......o
 00000CB9  6e 53 74 61 74 75 73 00  00 00 00 00 00 00 00 00 nStatus. ........
 ...
+00000DD7  00 00 00 00 00 00 00 09                          ........ 
+}}}
