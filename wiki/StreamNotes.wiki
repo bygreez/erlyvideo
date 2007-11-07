@@ -111,7 +111,7 @@ After this 5 channels are used each stream streams.
 7 Stream 1, Unknown
 8 Stream 1, Unknown
 
-8 Stream 2, Data
+9 Stream 2, Data
 ...
 
 TODO: Improve map packet types to channel ids.
