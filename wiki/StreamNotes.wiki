@@ -47,6 +47,7 @@ The remaining 6 bits of the first byte are used to store the channel id. With a 
 _Timer_
 
 Timer stores the packet time stamp in a 3 byte unsigned medium integer. 
+For new headers the time stamp is absolute, otherwise its relative.
 
 _Size_
 
