@@ -7,21 +7,26 @@ This document contains notes on running the server and testing.
 === Getting the code === 
 
 Get the code using from svn:
-
-svn co https://erlyvideo.googlecode.com/svn/trunk erlmedia
-
+{{{ 
+svn co https://erlyvideo.googlecode.com/svn/trunk erlyvideo
+}}}
 === Compiling and configuring the server ===
-
-cd erlmedia
-
+{{{ 
+cd erlyvideo
 make 
-
+}}}
 === Running the server === 
-
+{{{ 
 make run
-
+}}}
 This will start the server in an interactive erlang shell. 
 
+=== Regenerating the documentation ===
+
+'make doc' does currenly not work, run from the Erlang shell:
+{{{ 
+edoc:application('ErlyVideo', ".", [no_packages]). 
+}}}
 === Applications For Testing === 
 
 There are a number of sample that come with Red5 that can be used to test the server. Initially we are using the echo sample to test calls and AMF datatypes and the publisher application to test streaming. You can get download the apps from.
@@ -39,9 +44,9 @@ Load up the publisher and connect to rtmp://localhost:1935/ems_demo
 === Changing the code and reloading ===
 
 To compile and changes and reload run this command in the Erlang console. 
-
+{{{
 make:all([load]). 
-
+}}}
 === Debugging ===
 
 Currently we debug using trace statements. It would be nice to have the server make binary dumps of the incoming and outgoing data. This could then be read through the decoder to output the events in the console. 
