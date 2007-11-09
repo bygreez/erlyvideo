@@ -23,7 +23,7 @@ This will start the server in an interactive erlang shell.
 
 === Regenerating the documentation ===
 
-'make doc' does currenly not work, run from the Erlang shell:
+'make doc' does currently not work, run from the Erlang shell:
 {{{ 
 edoc:application('ErlyVideo', ".", [no_packages]). 
 }}}
