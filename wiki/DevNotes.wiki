@@ -8,7 +8,7 @@ This document contains notes on running the server and testing.
 
 Get the code using from svn:
 {{{ 
-svn co https://erlyvideo.googlecode.com/svn/trunk erlyvideo
+svn co http://erlyvideo.googlecode.com/svn/trunk erlyvideo
 }}}
 === Compiling and configuring the server ===
 {{{ 
