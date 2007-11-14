@@ -2,7 +2,7 @@
 
 = Optimization =
 
-==Luke's ideas from e-mail conversation==
+===Luke's ideas (snipped out from e-mail)===
 
 Its probably too early for this but I did some rough performance tests on my macbook.. with 1 stream ( transformers from red5 ) the cpu is around 4%, if I open up 10 then that jumps to around 20%. I had a play and managed to get fprof working, it seems to say ( if I understand it correctly ) that most of the cpu time is taken doing file IO. Or at least thats where erlang is waiting. This makes sense, but I would expect the file is paged into memory so access should be fast even for concurrent processes. I have some ideas of things we can to improve things.
 
