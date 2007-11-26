@@ -1,0 +1,49 @@
+#summary Notes on architecture.
+
+== Design Ideas ==
+
+[http://erlyvideo.googlecode.com/svn/wiki/images/live_streaming.jpg]
+[http://erlyvideo.googlecode.com/svn/wiki/images/on_demand_streaming.jpg]
+[http://erlyvideo.googlecode.com/svn/wiki/images/stream_recording.jpg]
+
+=== Binary Assumptions ===
+
+Efficient use of binaries is critical to the performance of the server. 
+Within a node Erlang does not create a new binary for every variable pointing to it. 
+Instead for each new variable it increments a ref counter. 
+Binaries are stored on a separate heap. 
+This means providing we don't chop up the binary we can pass it efficiently. 
+
+=== Stream FSM ===
+
+Read buffer.
+
+=== Media Broker ===
+
+Calculating the cost of access.
+
+=== Media Source === 
+
+Maintains an index of frame types, offsets, and positions.
+Maintains a cache of frames in an array.
+
+=== Media Reader and Media Writer ===
+
+Components which read and write media objects to storage.
+Convert between the media file format and media frames.
+Can be disk or HTTP versions. 
+
+=== Media Frame === 
+
+Binary is already chunked.
+
+=== Broadcast Manager === 
+
+
+
+=== Broadcast Source and Broadcast Repeater ===
+
+=== Broadcast Archiver ===
+
+Connects to a broadcast and saves it
+
