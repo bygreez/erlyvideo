@@ -2,9 +2,13 @@
 
 == Design Ideas ==
 
+=== Diagrams ===
+
 [http://erlyvideo.googlecode.com/svn/wiki/images/live_streaming.jpg]
-[http://erlyvideo.googlecode.com/svn/wiki/images/on_demand_streaming.jpg]
+
 [http://erlyvideo.googlecode.com/svn/wiki/images/stream_recording.jpg]
+
+[http://erlyvideo.googlecode.com/svn/wiki/images/on_demand_streaming.jpg]
 
 === Binary Assumptions ===
 
