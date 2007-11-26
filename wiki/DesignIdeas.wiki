@@ -24,9 +24,9 @@ In the current design we have a FSM for the clients connection. This deals prima
 
 When a stream needs to access a media object, it sends its request to the Media Broker. The broker gets a list of the possible sources and works out the cost of access for each source. It then chooses the cheapest (most efficient) option. The cost of access is based on the following formula.
 
-# It costs more of read media from disk.
-# It costs more to access media from another node.
-# The cost of access on any node depends on that nodes resource usage. 
+  # It costs more of read media from disk.
+  # It costs more to access media from another node.
+  # The cost of access on any node depends on that nodes resource usage. 
 
 Using this sort of formula we should be able to design the cluster to adapt to changing load with a bit of tweaking.
 
@@ -36,13 +36,13 @@ Another possible action of the broker would be to refuse access via this node, a
 
 A media source can be thought of as a process which caches part or all of a media object. A media source has the following properties.
 
-# Maintains an index of frame types, offsets, and positions.
-# Maintains a cache of frames in an array.
-# Random access to frames. 
-# Supports reading of ranges.
-# Supports actions such as nearest keyframe.
-# Can be chained to a media reader or another media source.
-# Can be expired after a certain period of inactivity to free up memory.
+  # Maintains an index of frame types, offsets, and positions.
+  # Maintains a cache of frames in an array.
+  # Random access to frames. 
+  # Supports reading of ranges.
+  # Supports actions such as nearest keyframe.
+  # Can be chained to a media reader or another media source.
+  # Can be expired after a certain period of inactivity to free up memory.
 
 === Media Reader and Media Writer ===
 
@@ -52,13 +52,17 @@ Can be disk or HTTP versions.
 
 === Media Frame === 
 
-Binary is already chunked.
+A media frame can be video, audio, or data. It contains the header info ( frame_type, rel_ts, abs_ts, size, etc ) and the binary data. I suggest we pre-chunk the data when the media frame is created. This way we can eliminate the need to chop up existing binaries. 
 
 === Broadcast Manager === 
 
+The broadcast manager maintains a list of active broadcasts. Think of it like a channel listing. When a stream wants to connect to a broadcast it contacts the manager who looks up the broadcast, returns the Pid for the stream to subscribe. If the broadcast source is not on the save node, it sets up a broadcast repeater.
+
 === Broadcast Source and Broadcast Repeater ===
+
+Streams do not connect directly to the broadcast source if they are not on the same node. Instead a broadcast repeater is connected to the source and only a single stream of binary frames flows between the source and the repeater. This topology will hopefully be more efficient as it should reduce the volume of binary data flowing between the nodes and also support a larger number of subscribers. Consider a cluster with 1000 subscribers connected to a 500kbps stream. If the cluster has 10 nodes and the connections are dispersed between those nodes, thats 100 connections per node. Without repeaters this would be cause 400mbps of data to be sent between the nodes. With repeaters its cut to 2mbps. 
 
 === Broadcast Archiver ===
 
-Connects to a broadcast and saves it
+A process you can attach to any broadcast to save the stream to a media writer. The setup could for instance create a new media object for every hour. 
 
