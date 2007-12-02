@@ -1,7 +1,0 @@
-#summary Roberto's TODO list.
-
-===TODO===:
- * make the per-connection id creation work
- * major main-FMS refactoring, now it is just a mess of code
- * add distributed media broker (getting media from Cache, filesystem, network filesystem, S3, etc ..
- * fix audio recording
