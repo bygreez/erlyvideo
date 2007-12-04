@@ -1,4 +1,3 @@
-
 #summary To Do list for erlyVideo / Erlang Media Server
 
 = Introduction =
@@ -22,7 +21,7 @@ lesser issues
  * *URGENT:* make the per-connection id creation work 
  * fix audio recording
  * fix live streaming
- * major main-FMS refactoring, now it is just a mess of code
+ * major main-FSM refactoring, now it is just a mess of code
  * add distributed media broker (getting media from Cache, filesystem, network filesystem, S3, etc ..
  * replace mnesia hack with Stuarts well thought approach
 
