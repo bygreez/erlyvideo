@@ -5,35 +5,14 @@
 Application configuration based on OTP environment variables
 
 currently the following OTP environment variables can be configured:
-  * flv_dir (default location of video files for playback)
 
-how it works:
-  * there is a OTP .app file template in the src folder (ems.app.src)
-  * the first time you compile, it gets copied into ebin folder
-  * there you can customize it, it won't get overwritten.
+|| Variable    || Description                                   || Default ||
+|| flv_dir     || default location of video files for playback. || /tmp ||
+|| listen_port || default port to start ErlMedia                || 1935 ||
+
+Varialbes can easily be overridden with a standard .config file when the .config file is given ont he comand line while starting Erlang.
 
 
-== differnt configurations for different environments ==
-
-for different environments such as staging, testing the OTP environment variables can be overwritten at Erlang VM start.
-
-Example: startscript
-
-{{{
-#!/bin/sh
-
-ERL=erl
-NODENAME=ems
-FLV_DIR=/path/to/flv/dir
-
-$ERL -pa `pwd`/ebin \
-   -boot start_sasl \
-   -s ems \
-   -sname $NODENAME \
-   -ems flv_die "\"${FLV_DIR}\"" \
-   -heart \
-   -noinput &
-}}}
 
 
 At later stage more options will be added to define the location of video files (e.g. for live recording) 
