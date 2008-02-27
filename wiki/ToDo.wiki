@@ -11,11 +11,18 @@ Main Points
  * FLV Playback
  * FLV Recording
  * Live Streams
+ * distributed live streams
 
 lesser issues
- * Add specific folder support into gen_rtmp applications for playing and recording
+ * Add specific folder support into gen_rtmp applications for playing and recording. Do this with user config file
 
 == Details ==
+
+
+=== Stuart's current Items ===
+
+ * check if ems_amf:numer_to_string/1 is used outside of ems_amf
+ * split ems_app into ems_app and ems_sup
 
 === Roberto's current items ===
  * *URGENT:* make the per-connection id creation work 
