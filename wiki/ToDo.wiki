@@ -23,6 +23,7 @@ lesser issues
 
  * check if ems_amf:numer_to_string/1 is used outside of ems_amf
  * split ems_app into ems_app and ems_sup
+ * separate encode/decoud routines into separate modules
 
 === Roberto's current items ===
  * *URGENT:* make the per-connection id creation work 
